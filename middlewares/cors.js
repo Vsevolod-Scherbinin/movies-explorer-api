@@ -1,8 +1,8 @@
 const allowedCors = [
-  'https://scherbinin.mesto.nomoredomains.club',
-  'http://scherbinin.mesto.nomoredomains.club',
-  'https://api.scherbinin.mesto.nomoredomains.club',
-  'http://api.scherbinin.mesto.nomoredomains.club',
+  'https://scherbinin.diploma.nomoredomains.club',
+  'http://scherbinin.diploma.nomoredomains.club',
+  'https://api.scherbinin.diploma.nomoredomains.club',
+  'http://api.scherbinin.diploma.nomoredomains.club',
   'localhost:4000',
 ];
 
