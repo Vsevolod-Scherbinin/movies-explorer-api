@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 const mongoose = require('mongoose');
 const Movie = require('../models/movie');
 const {
@@ -60,8 +59,7 @@ module.exports.deleteMovie = (req, res, next) => {
         throw new ForbiddenError('Функция недоступна');
       }
       return Movie.findByIdAndRemove(req.params.movieId).orFail(new Error(NotFound))
-        // eslint-disable-next-line no-shadow
-        .then((movie) => {
+        .then(() => {
           res.send({ data: movie });
         });
     })

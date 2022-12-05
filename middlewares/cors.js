@@ -3,7 +3,7 @@ const allowedCors = [
   'http://scherbinin.mesto.nomoredomains.club',
   'https://api.scherbinin.mesto.nomoredomains.club',
   'http://api.scherbinin.mesto.nomoredomains.club',
-  'localhost:3000',
+  'localhost:4000',
 ];
 
 module.exports = (req, res, next) => {
