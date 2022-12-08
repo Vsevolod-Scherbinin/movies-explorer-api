@@ -3,44 +3,28 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 const { errors } = require('celebrate');
-const { signInValidation, signUpValidation } = require('./middlewares/requestsValidation'); // adapt
-const { clearCookie } = require('./controllers/users');
+const helmet = require('helmet');
 const NotFoundError = require('./errors/NotFoundError');
 const centralErrorHandler = require('./middlewares/centralErrorHandler');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const cors = require('./middlewares/cors');
+const routes = require('./routes');
+const rateLimiter = require('./middlewares/rateLimiter');
 
-mongoose.connect('mongodb://localhost:27017/diplomadb');
+const { PORT = 4000, NODE_ENV, MONGO_URL } = process.env;
 
-const routesUsers = require('./routes/users');
-const routesMovies = require('./routes/movies');
-const {
-  createUser, login,
-} = require('./controllers/users');
-
-const { PORT = 4000 } = process.env;
+mongoose.connect(NODE_ENV === 'production' ? MONGO_URL : 'mongodb://localhost:27017/moviesdb');
 
 const app = express();
 
 app.use(express.json());
 app.use(cookieParser());
-
 app.use(requestLogger);
-
 app.use(cors);
+app.use(helmet());
+app.use(rateLimiter);
 
-app.get('/crash-test', () => {
-  setTimeout(() => {
-    throw new Error('Сервер сейчас упадёт');
-  }, 0);
-});
-
-app.post('/signup', signUpValidation, createUser);
-app.post('/signin', signInValidation, login);
-app.get('/signout', clearCookie);
-
-app.use(routesUsers);
-app.use(routesMovies);
+app.use(routes);
 
 app.use((req, res, next) => next(new NotFoundError('Некорректный адрес запроса')));
 

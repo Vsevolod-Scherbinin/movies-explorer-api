@@ -71,6 +71,10 @@ module.exports.editUser = (req, res, next) => {
         return next(new BadRequestError('Некорректные данные'));
       }
 
+      if (err.code === 11000) {
+        return next(new ConflictError('Пользователь с такими данными уже существует'));
+      }
+
       return next(err);
     });
 };
@@ -90,7 +94,7 @@ module.exports.login = (req, res, next) => {
         .status(200).send({ message: 'Авторзация прошла успешно' });
     })
 
-    .catch(() => next(new UnauthorizedError('Ошибка авторизации')));
+    .catch(() => next(new UnauthorizedError('Неправильное имя пользователя или пароль')));
 };
 
 module.exports.clearCookie = (req, res) => {

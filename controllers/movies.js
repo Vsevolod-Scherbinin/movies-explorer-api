@@ -1,8 +1,6 @@
 const mongoose = require('mongoose');
 const Movie = require('../models/movie');
-const {
-  NotFound, CastError,
-} = require('../constants/constants');
+const { CastError } = require('../constants/constants');
 const BadRequestError = require('../errors/BadRequestError');
 const NotFoundError = require('../errors/NotFoundError');
 const ForbiddenError = require('../errors/ForbiddenError');
@@ -53,12 +51,12 @@ module.exports.createMovie = (req, res, next) => {
 };
 
 module.exports.deleteMovie = (req, res, next) => {
-  Movie.findById(req.params.movieId).orFail(() => new NotFoundError('Запрашиваемая карточка не найдена'))
+  Movie.findById(req.params.movieId).orFail(() => new NotFoundError('Запрашиваемый ролик не найден'))
     .then((movie) => {
       if (movie.owner.toString() !== req.user._id) {
         throw new ForbiddenError('Функция недоступна');
       }
-      return Movie.findByIdAndRemove(req.params.movieId).orFail(new Error(NotFound))
+      return Movie.findByIdAndRemove(req.params.movieId).orFail(new NotFoundError('Запрашиваемый ролик не найден'))
         .then(() => {
           res.send({ data: movie });
         });

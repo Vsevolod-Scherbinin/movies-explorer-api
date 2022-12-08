@@ -5,7 +5,7 @@ module.exports.signUpValidation = celebrate({
   body: Joi.object().keys({
     email: Joi.string().required().email(),
     password: Joi.string().required(),
-    name: Joi.string().min(2).max(30),
+    name: Joi.string().required().min(2).max(30),
   }),
 });
 
@@ -39,7 +39,7 @@ module.exports.movieValidation = celebrate({
     image: Joi.string().required().regex(regex),
     trailerLink: Joi.string().required().regex(regex),
     thumbnail: Joi.string().required().regex(regex),
-    movieId: Joi.string().required(),
+    movieId: Joi.number().required(),
     nameRU: Joi.string().required(),
     nameEN: Joi.string().required(),
   }),
