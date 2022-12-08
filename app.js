@@ -16,14 +16,14 @@ mongoose.connect(NODE_ENV === 'production' ? MONGO_URL : 'mongodb://localhost:27
 
 const app = express();
 
-app.use(helmet());
-app.use(rateLimiter);
-
 app.use(express.json());
 app.use(cookieParser());
 app.use(requestLogger);
-app.use(cors);
 
+app.use(helmet());
+app.use(rateLimiter);
+
+app.use(cors);
 app.use(routes);
 
 app.use(errorLogger);
