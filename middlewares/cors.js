@@ -3,7 +3,8 @@ const allowedCors = [
   'http://scherbinin.diploma.nomoredomains.club',
   'https://api.scherbinin.diploma.nomoredomains.club',
   'http://api.scherbinin.diploma.nomoredomains.club',
-  'localhost:4000',
+  'http://localhost:4000',
+  'http://localhost:3000',
 ];
 
 module.exports = (req, res, next) => {
