@@ -51,7 +51,7 @@ module.exports.createMovie = (req, res, next) => {
 };
 
 module.exports.deleteMovie = (req, res, next) => {
-  Movie.findOne({ movieId: req.params.movieId }).orFail(() => new NotFoundError('Запрашиваемый ролик не найден'))
+  Movie.findOne({ movieId: req.params.movieId, owner: req.user._id }).orFail(() => new NotFoundError('Запрашиваемый ролик не найден'))
     .then((movie) => {
       if (movie.owner.toString() !== req.user._id) {
         throw new ForbiddenError('Функция недоступна');
